@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://1v1lol2025.online/sitemap.xml
