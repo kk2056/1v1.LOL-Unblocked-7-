@@ -1,5 +1,4 @@
 User-agent: *
-Allow: /
-Disallow: /private/
+Disallow:
 
 Sitemap: https://1v1lol2025.online/sitemap.xml
