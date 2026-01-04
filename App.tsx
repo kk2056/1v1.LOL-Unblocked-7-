@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { GameFrame } from './components/GameFrame';
 import { Header } from './components/Header';
@@ -32,15 +31,24 @@ const App: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Initialize AdSense push
-    try {
-      // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("AdSense push error:", e);
-    }
+    // Initialize AdSense pushes
+    const initAds = () => {
+      try {
+        // Only push once as there is exactly one <ins> element in this component's DOM
+        // @ts-ignore
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.error("AdSense initialization error:", e);
+      }
+    };
 
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    // Small timeout to ensure DOM is ready for ad injection
+    const timer = setTimeout(initAds, 500);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -62,15 +70,15 @@ const App: React.FC = () => {
         </div>
 
         {/* Mobile Experience Tip */}
-        <div className="w-full max-w-4xl mx-auto px-4 mt-4">
-          <div className="text-center text-white bg-purple-800 p-4 rounded-lg mb-6 max-w-md mx-auto shadow-lg border border-purple-600">
-            Tip: Rotate to landscape mode for better mobile experience! Perfect on phone or Chromebook.
+        <div className="w-full max-w-4xl mx-auto px-4 mt-6">
+          <div className="text-center text-white bg-purple-800 p-4 rounded-lg mb-6 max-w-md mx-auto shadow-lg border border-purple-600 font-medium">
+            Tip: Rotate to landscape for better mobile experience! Perfect on phone or Chromebook.
           </div>
 
           {/* Prominent Fullscreen Button */}
           <button 
             onClick={toggleFullscreen} 
-            className="block mx-auto bg-green-600 hover:bg-green-700 text-white font-black py-4 px-8 rounded-xl text-xl mb-4 shadow-xl transform transition hover:scale-105 active:scale-95"
+            className="block mx-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl text-xl mb-6 shadow-lg transform transition hover:scale-105 active:scale-95"
           >
             Play Full Screen (Press F - Ultimate Experience!)
           </button>
@@ -95,7 +103,7 @@ const App: React.FC = () => {
           />
         </div>
 
-        {/* New AdSense Placement below Game */}
+        {/* Main AdSense Placement below Game for RPM Boost */}
         <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4">
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
@@ -106,11 +114,14 @@ const App: React.FC = () => {
 
         <div className="w-full max-w-4xl mx-auto px-4 pb-12">
           {/* Strategy Text Section */}
-          <div className="strategy mt-8 text-gray-300 p-4 bg-gray-800 rounded-lg border border-slate-700 shadow-inner">
-            <h2 className="text-xl font-bold text-white mb-2">How to Win in 1v1.LOL Unblocked</h2>
-            Restricted from playing Fortnite at school? 1v1.LOL Unblocked 2025 is the perfect alternative. This third-person shooter focuses heavily on the "Build and Shoot" mechanic. Here, your building speed is just as important as your aim. Use walls, ramps, and floors to instantly change the battlefield topography and secure the High Ground to dominate your opponents with a sniper or shotgun.
-            <br /><br />
-            <strong>Combat Tips:</strong> Practicing your "90s" (building 90-degree turns upwards) is mandatory. Jump into "JustBuild" mode to refine your muscle memory and keybinds. Don't panic when shot; build a defensive box first, then counter-attack. Being browser-based, it runs smoothly on any Chromebook, allowing you to enjoy competitive 1v1 duels with your classmates during breaks.
+          <div className="strategy mt-8 text-gray-300 p-6 bg-gray-800 rounded-lg border border-slate-700 shadow-inner">
+            <h2 className="text-2xl font-bold text-white mb-4">Mastering 1v1.LOL Unblocked 2025</h2>
+            <p className="mb-4">
+              Restricted from playing Fortnite at school? <strong>1v1.LOL Unblocked 2025</strong> is the perfect alternative. This third-person shooter focuses heavily on the "Build and Shoot" mechanic. Here, your building speed is just as important as your aim. Use walls, ramps, and floors to instantly change the battlefield topography and secure the High Ground to dominate your opponents with a sniper or shotgun.
+            </p>
+            <p className="mb-4">
+              <strong>Combat Tips:</strong> Practicing your "90s" (building 90-degree turns upwards) is mandatory. Jump into "JustBuild" mode to refine your muscle memory and keybinds. Don't panic when shot; build a defensive box first, then counter-attack. Being browser-based, it runs smoothly on any Chromebook, allowing you to enjoy competitive 1v1 duels with your classmates during breaks.
+            </p>
           </div>
 
           {/* Internal Links Section */}
@@ -148,9 +159,9 @@ const App: React.FC = () => {
 
         {/* SEO Content Section */}
         <section className="w-full max-w-4xl mx-auto px-6 py-12 text-slate-300 prose prose-invert border-t border-slate-800">
-          <h1 className="text-4xl font-bold text-white mb-6">1v1.LOL Unblocked 2025: The Best School Game</h1>
+          <h1 className="text-4xl font-bold text-white mb-6">1v1.LOL Unblocked 2025: Premium Gaming Experience</h1>
           <p className="text-lg leading-relaxed mb-4">
-            Welcome to the premier destination for <strong>1v1.LOL Unblocked 2025</strong>. If you're looking for a way to play your favorite building and shooting game at school or work, you've come to the right place. Our version is optimized for high performance on <strong>Chromebooks</strong> and standard school networks.
+            Welcome to the premier destination for <strong>1v1.LOL Unblocked 2025</strong>. If you're looking for a way to play your favorite building and shooting game at school or work, you've come to the right place. Our version is optimized for high performance on <strong>Chromebooks</strong> and standard school networks with zero lag.
           </p>
         </section>
 
