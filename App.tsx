@@ -31,18 +31,32 @@ const App: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Initialize AdSense pushes
+    // Safer AdSense initialization to prevent 'availableWidth=0' error
+    let adInitAttempts = 0;
+    const maxAttempts = 10;
+
     const initAds = () => {
-      try {
-        // Only push once as there is exactly one <ins> element in this component's DOM
-        // @ts-ignore
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.error("AdSense initialization error:", e);
+      const adContainer = document.querySelector('.ad-bottom');
+      const insElement = adContainer?.querySelector('ins.adsbygoogle');
+
+      // Check if container is rendered and has actual width
+      if (adContainer && (adContainer as HTMLElement).offsetWidth > 0) {
+        try {
+          // Only push if not already initialized
+          if (insElement && !insElement.hasAttribute('data-adsbygoogle-status')) {
+            // @ts-ignore
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          }
+        } catch (e) {
+          console.error("AdSense initialization error:", e);
+        }
+      } else if (adInitAttempts < maxAttempts) {
+        adInitAttempts++;
+        setTimeout(initAds, 300); // Retry after layout stabilizes
       }
     };
 
-    // Small timeout to ensure DOM is ready for ad injection
+    // Small delay for initial paint
     const timer = setTimeout(initAds, 500);
 
     return () => {
@@ -103,8 +117,8 @@ const App: React.FC = () => {
           />
         </div>
 
-        {/* Main AdSense Placement below Game for RPM Boost */}
-        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4">
+        {/* Main AdSense Placement below Game - Styled to prevent 'availableWidth=0' */}
+        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4" style={{ minHeight: '280px', display: 'block' }}>
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-client="ca-pub-9774042341049510"
