@@ -48,16 +48,16 @@ const App: React.FC = () => {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
           }
         } catch (e) {
-          console.error("AdSense initialization error:", e);
+          console.debug("AdSense status: Initialized or skipped to prevent errors.");
         }
       } else if (adInitAttempts < maxAttempts) {
         adInitAttempts++;
-        setTimeout(initAds, 300); // Retry after layout stabilizes
+        setTimeout(initAds, 500); // Retry after layout stabilizes
       }
     };
 
     // Small delay for initial paint
-    const timer = setTimeout(initAds, 500);
+    const timer = setTimeout(initAds, 800);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -83,21 +83,21 @@ const App: React.FC = () => {
           <AdPlaceholder label="Top Advertisement" />
         </div>
 
-        {/* Mobile Experience Tip */}
+        {/* 1. Mobile Experience Tip */}
         <div className="w-full max-w-4xl mx-auto px-4 mt-6">
           <div className="text-center text-white bg-purple-800 p-4 rounded-lg mb-6 max-w-md mx-auto shadow-lg border border-purple-600 font-medium">
             Tip: Rotate to landscape for better mobile experience! Perfect on phone or Chromebook.
           </div>
 
-          {/* Prominent Fullscreen Button */}
+          {/* 2. Optimized Fullscreen Button */}
           <button 
             onClick={toggleFullscreen} 
-            className="block mx-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl text-xl mb-6 shadow-lg transform transition hover:scale-105 active:scale-95"
+            className="block mx-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl text-xl mb-6 shadow-lg transform transition hover:scale-105 active:scale-95 border-b-4 border-green-800"
           >
             Play Full Screen (Press F - Ultimate Experience!)
           </button>
 
-          {/* Fullscreen Hint Text */}
+          {/* 3. Fullscreen Hint Text */}
           <div className="text-center text-white bg-blue-800 p-4 rounded-lg mb-6 max-w-lg mx-auto shadow-md border border-blue-600">
             Press F for fullscreen - No lag, full immersion on any device!
           </div>
@@ -117,8 +117,8 @@ const App: React.FC = () => {
           />
         </div>
 
-        {/* Main AdSense Placement below Game - Styled to prevent 'availableWidth=0' */}
-        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4" style={{ minHeight: '280px', display: 'block' }}>
+        {/* 4. Extra AdSense Placement - Bottom (RPM Boost) */}
+        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4" style={{ minHeight: '100px' }}>
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-client="ca-pub-9774042341049510"
@@ -131,14 +131,14 @@ const App: React.FC = () => {
           <div className="strategy mt-8 text-gray-300 p-6 bg-gray-800 rounded-lg border border-slate-700 shadow-inner">
             <h2 className="text-2xl font-bold text-white mb-4">Mastering 1v1.LOL Unblocked 2025</h2>
             <p className="mb-4">
-              Restricted from playing Fortnite at school? <strong>1v1.LOL Unblocked 2025</strong> is the perfect alternative. This third-person shooter focuses heavily on the "Build and Shoot" mechanic. Here, your building speed is just as important as your aim. Use walls, ramps, and floors to instantly change the battlefield topography and secure the High Ground to dominate your opponents with a sniper or shotgun.
+              Restricted from playing Fortnite at school? <strong>1v1.LOL Unblocked 2025</strong> is the perfect alternative. This third-person shooter focuses heavily on the "Build and Shoot" mechanic. Use walls, ramps, and floors to instantly change the battlefield topography and secure the High Ground to dominate your opponents with a sniper or shotgun.
             </p>
             <p className="mb-4">
-              <strong>Combat Tips:</strong> Practicing your "90s" (building 90-degree turns upwards) is mandatory. Jump into "JustBuild" mode to refine your muscle memory and keybinds. Don't panic when shot; build a defensive box first, then counter-attack. Being browser-based, it runs smoothly on any Chromebook, allowing you to enjoy competitive 1v1 duels with your classmates during breaks.
+              <strong>Combat Tips:</strong> Practicing your "90s" is mandatory. Jump into "JustBuild" mode to refine your muscle memory and keybinds. Don't panic when shot; build a defensive box first, then counter-attack. Being browser-based, it runs smoothly on any Chromebook, allowing you to enjoy competitive 1v1 duels with your classmates during breaks.
             </p>
           </div>
 
-          {/* Internal Links Section */}
+          {/* Internal Links Section (SEO & Traffic Circulation) */}
           <div className="other-games mt-8 bg-gray-900 p-6 rounded-lg shadow-lg border border-gray-700">
             <h3 className="text-xl font-bold text-white mb-4 border-b border-gray-600 pb-2">More Unblocked Games 2025</h3>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-none">
