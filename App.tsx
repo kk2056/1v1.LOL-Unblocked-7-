@@ -31,33 +31,24 @@ const App: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Safer AdSense initialization to prevent 'availableWidth=0' error
-    let adInitAttempts = 0;
-    const maxAttempts = 10;
-
+    // Google AdSense initialization - optimized for multiple slots
     const initAds = () => {
-      const adContainer = document.querySelector('.ad-bottom');
-      const insElement = adContainer?.querySelector('ins.adsbygoogle');
-
-      // Check if container is rendered and has actual width
-      if (adContainer && (adContainer as HTMLElement).offsetWidth > 0) {
-        try {
-          // Only push if not already initialized
-          if (insElement && !insElement.hasAttribute('data-adsbygoogle-status')) {
+      const adContainers = document.querySelectorAll('.adsbygoogle-container');
+      adContainers.forEach(container => {
+        const ins = container.querySelector('ins.adsbygoogle');
+        if (ins && !ins.hasAttribute('data-adsbygoogle-status')) {
+          try {
             // @ts-ignore
             (window.adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (e) {
+            console.debug("AdSense: Slot already initialized or pending.");
           }
-        } catch (e) {
-          console.debug("AdSense status: Initialized or skipped to prevent errors.");
         }
-      } else if (adInitAttempts < maxAttempts) {
-        adInitAttempts++;
-        setTimeout(initAds, 500); // Retry after layout stabilizes
-      }
+      });
     };
 
-    // Small delay for initial paint
-    const timer = setTimeout(initAds, 800);
+    // Delay initialization to ensure DOM and Layout are stable for RPM optimization
+    const timer = setTimeout(initAds, 1000);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -80,34 +71,34 @@ const App: React.FC = () => {
       <main className="flex-grow flex flex-col items-center bg-slate-900">
         {/* Top Ad Space */}
         <div className="w-full max-w-7xl mx-auto px-4 py-2">
-          <AdPlaceholder label="Top Advertisement" />
+          <AdPlaceholder label="Top Banner Ad" />
         </div>
 
-        {/* 1. Mobile Experience Tip */}
+        {/* 1. Mobile & Chromebook Experience Tip */}
         <div className="w-full max-w-4xl mx-auto px-4 mt-6">
-          <div className="text-center text-white bg-purple-800 p-4 rounded-lg mb-6 max-w-md mx-auto shadow-lg border border-purple-600 font-medium">
-            Tip: Rotate to landscape for better mobile experience! Perfect on phone or Chromebook.
+          <div className="text-center text-white bg-purple-800 p-4 rounded-lg mb-6 max-w-md mx-auto shadow-xl border border-purple-500 font-semibold animate-pulse-subtle">
+            Tip: Rotate to landscape for the best 2026 mobile experience! Optimized for Chromebook and Tablets.
           </div>
 
-          {/* 2. Optimized Fullscreen Button */}
+          {/* 2. Optimized High-Impact Fullscreen Button */}
           <button 
             onClick={toggleFullscreen} 
-            className="block mx-auto bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl text-xl mb-6 shadow-lg transform transition hover:scale-105 active:scale-95 border-b-4 border-green-800"
+            className="block mx-auto bg-green-600 hover:bg-green-500 text-white font-black py-5 px-10 rounded-2xl text-2xl mb-4 shadow-[0_8px_0_rgb(22,101,52)] active:shadow-none active:translate-y-1 transform transition-all hover:scale-105"
           >
-            Play Full Screen (Press F - Ultimate Experience!)
+            PLAY FULL SCREEN (PRESS F)
           </button>
 
-          {/* 3. Fullscreen Hint Text */}
-          <div className="text-center text-white bg-blue-800 p-4 rounded-lg mb-6 max-w-lg mx-auto shadow-md border border-blue-600">
-            Press F for fullscreen - No lag, full immersion on any device!
+          {/* 3. Immersive Fullscreen Hint */}
+          <div className="text-center text-white bg-blue-900/60 p-3 rounded-lg mb-8 max-w-lg mx-auto border border-blue-700 backdrop-blur-sm">
+            Ultimate 1v1.LOL Experience: No lag, 120FPS feel, full immersion!
           </div>
         </div>
 
         {/* Game Area */}
         <div 
           ref={gameContainerRef}
-          className={`w-full relative bg-black transition-all duration-300 shadow-2xl ${
-            isFullscreen ? 'h-screen' : 'h-[70vh] md:h-[85vh] border-y border-slate-700'
+          className={`w-full relative bg-black transition-all duration-500 shadow-2xl ${
+            isFullscreen ? 'h-screen' : 'h-[65vh] md:h-[80vh] border-y border-slate-800'
           }`}
         >
           <GameFrame 
@@ -117,8 +108,8 @@ const App: React.FC = () => {
           />
         </div>
 
-        {/* 4. Extra AdSense Placement - Bottom (RPM Boost) */}
-        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4" style={{ minHeight: '100px' }}>
+        {/* 4. Strategic AdSense Placement (Below Game) for High RPM */}
+        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4 adsbygoogle-container" style={{ minHeight: '120px' }}>
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-client="ca-pub-9774042341049510"
@@ -126,61 +117,67 @@ const App: React.FC = () => {
                data-full-width-responsive="true"></ins>
         </div>
 
-        <div className="w-full max-w-4xl mx-auto px-4 pb-12">
-          {/* Strategy Text Section */}
-          <div className="strategy mt-8 text-gray-300 p-6 bg-gray-800 rounded-lg border border-slate-700 shadow-inner">
-            <h2 className="text-2xl font-bold text-white mb-4">Mastering 1v1.LOL Unblocked 2025</h2>
-            <p className="mb-4">
-              Restricted from playing Fortnite at school? <strong>1v1.LOL Unblocked 2025</strong> is the perfect alternative. This third-person shooter focuses heavily on the "Build and Shoot" mechanic. Use walls, ramps, and floors to instantly change the battlefield topography and secure the High Ground to dominate your opponents with a sniper or shotgun.
+        <div className="w-full max-w-4xl mx-auto px-4 pb-16">
+          {/* 2026 Strategy & SEO Content Section */}
+          <div className="strategy mt-12 text-gray-300 p-8 bg-gray-800/80 rounded-2xl border border-slate-700 shadow-2xl backdrop-blur-md">
+            <h2 className="text-3xl font-extrabold text-white mb-6">Unblocked Games 2026 School Guide: 1v1.LOL</h2>
+            <p className="mb-6 leading-relaxed text-lg">
+              Are you searching for the best <strong>unblocked games 2026 school chromebook no download</strong>? Look no further. Our 2026 edition of 1v1.LOL is fully optimized to bypass restrictions while maintaining ultra-low latency. Whether you are in the classroom or at home, you can jump into the action instantly.
             </p>
-            <p className="mb-4">
-              <strong>Combat Tips:</strong> Practicing your "90s" is mandatory. Jump into "JustBuild" mode to refine your muscle memory and keybinds. Don't panic when shot; build a defensive box first, then counter-attack. Being browser-based, it runs smoothly on any Chromebook, allowing you to enjoy competitive 1v1 duels with your classmates during breaks.
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                <h3 className="text-blue-400 font-bold mb-2 uppercase text-sm tracking-widest">2026 Pro Tactics</h3>
+                <p className="text-sm">Master the 'Triple-Ramp' build and the fast-edit shotgun combo. In 2026, the meta is all about speed and precision editing on school networks.</p>
+              </div>
+              <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                <h3 className="text-green-400 font-bold mb-2 uppercase text-sm tracking-widest">Chromebook Setup</h3>
+                <p className="text-sm">Turn off hardware acceleration for a smoother experience. This version of 1v1.LOL requires <strong>no download</strong> and runs directly in your browser.</p>
+              </div>
+            </div>
+            <p className="mt-8 italic text-slate-400 border-l-4 border-blue-600 pl-4">
+              "The most reliable source for unblocked games 2026 – play 1v1.LOL anytime, anywhere."
             </p>
           </div>
 
-          {/* Internal Links Section (SEO & Traffic Circulation) */}
-          <div className="other-games mt-8 bg-gray-900 p-6 rounded-lg shadow-lg border border-gray-700">
-            <h3 className="text-xl font-bold text-white mb-4 border-b border-gray-600 pb-2">More Unblocked Games 2025</h3>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-none">
-                <li className="mb-2"><a href="https://snakegame.cfd" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Snake Game Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://playzero2025.sbs" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Zero Lag Games Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://freegames2025.sbs" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Free Games Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://nodownload2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play No Download Games Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://unblocked2025.cfd" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Unblocked Games 2025 (Main)</a></li>
-                <li className="mb-2"><a href="https://unblocked2025.sbs" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Best Unblocked Games 2025</a></li>
-                <li className="mb-2"><a href="https://promax.it.com" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play ProMax Games Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://retrobowl2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Retro Bowl Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://1v1lol2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play 1v1.LOL Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://drift2025.site" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Drift Hunters Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://slope2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Slope Game Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://gd2025.site" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Geometry Dash Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://motox3m2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Moto X3M Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://surfers2025.site" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Subway Surfers Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://run32025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Run 3 Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://fireboy2025.site" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Fireboy & Watergirl Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://paperio2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Paper.io Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://driftbest2025.site" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Drift Hunters MAX Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://gd-full2025.site" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Geometry Dash Full Unblocked 2025</a></li>
-                <li className="mb-2"><a href="https://subway2025.online" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">Play Subway Surfers World Unblocked 2025</a></li>
+          {/* Internal Links (SEO Circulation) */}
+          <div className="other-games mt-12 bg-slate-950/40 p-8 rounded-2xl shadow-xl border border-slate-800">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+              <span className="w-2 h-8 bg-blue-600 rounded-full"></span>
+              Trending Unblocked Games 2026
+            </h3>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {['Snake Game', 'Zero Lag Games', 'Retro Bowl', 'Drift Hunters', 'Slope Game', 'Geometry Dash', 'Moto X3M', 'Subway Surfers', 'Run 3', 'Fireboy & Watergirl', 'Paper.io', 'Subway Surfers World'].map((game) => (
+                  <li key={game}>
+                    <a href={`https://${game.toLowerCase().replace(/\s+/g, '')}2026.online`} className="block p-3 rounded-lg bg-slate-800/30 hover:bg-blue-600/20 border border-slate-700 hover:border-blue-500 transition-all text-blue-300 hover:text-white font-medium truncate">
+                      Play {game} Unblocked 2026
+                    </a>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
 
-        {/* Middle Ad Space */}
-        <div className="w-full max-w-7xl mx-auto px-4 py-8">
-          <AdPlaceholder label="Middle Advertisement" />
-        </div>
-
-        {/* SEO Content Section */}
-        <section className="w-full max-w-4xl mx-auto px-6 py-12 text-slate-300 prose prose-invert border-t border-slate-800">
-          <h1 className="text-4xl font-bold text-white mb-6">1v1.LOL Unblocked 2025: Premium Gaming Experience</h1>
-          <p className="text-lg leading-relaxed mb-4">
-            Welcome to the premier destination for <strong>1v1.LOL Unblocked 2025</strong>. If you're looking for a way to play your favorite building and shooting game at school or work, you've come to the right place. Our version is optimized for high performance on <strong>Chromebooks</strong> and standard school networks with zero lag.
-          </p>
+        {/* SEO & Engagement Section */}
+        <section className="w-full max-w-4xl mx-auto px-6 py-16 text-slate-300 border-t border-slate-800">
+          <h1 className="text-5xl font-black text-white mb-8 tracking-tighter">1v1.LOL UNBLOCKED 2026</h1>
+          <div className="space-y-6 text-lg leading-relaxed">
+            <p>
+              Experience the next generation of building-based combat. <strong>1v1.LOL Unblocked 2026</strong> brings you the most stable servers and updated game modes for the new academic year. Our platform is the #1 hub for <strong>unblocked games 2026 school</strong> environments, ensuring you never miss a beat of the action.
+            </p>
+            <p>
+              With <strong>no download</strong> required, you can play directly on your <strong>Chromebook</strong> or any mobile device. We focus on performance and accessibility, making this the premium version of 1v1 lol unblocked for students and casual gamers alike.
+            </p>
+          </div>
         </section>
 
-        <div className="w-full max-w-7xl mx-auto px-4 py-4">
-          <AdPlaceholder label="Bottom Advertisement" />
+        {/* Bottom Banner for Additional Revenue */}
+        <div className="w-full max-w-7xl mx-auto px-4 py-8 adsbygoogle-container">
+          <AdPlaceholder label="Footer Recommendation Ad" />
+          <ins className="adsbygoogle"
+               style={{ display: 'block' }}
+               data-ad-client="ca-pub-9774042341049510"
+               data-ad-format="autorelaxed"
+               data-ad-slot="9876543210"></ins>
         </div>
       </main>
 
