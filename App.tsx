@@ -22,7 +22,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Keyboard shortcut 'F' for fullscreen and AdSense initialization
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'f') {
@@ -31,25 +30,20 @@ const App: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Google AdSense initialization - optimized for multiple slots
+    // Optimized AdSense initialization for multiple slots
     const initAds = () => {
-      const adContainers = document.querySelectorAll('.adsbygoogle-container');
-      adContainers.forEach(container => {
-        const ins = container.querySelector('ins.adsbygoogle');
-        if (ins && !ins.hasAttribute('data-adsbygoogle-status')) {
-          try {
-            // @ts-ignore
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-          } catch (e) {
-            console.debug("AdSense: Slot already initialized or pending.");
-          }
-        }
-      });
+      try {
+        const ads = document.querySelectorAll('.adsbygoogle:not([data-adsbygoogle-status])');
+        ads.forEach(() => {
+          // @ts-ignore
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        });
+      } catch (e) {
+        console.debug("AdSense initialization skip or pending.");
+      }
     };
 
-    // Delay initialization to ensure DOM and Layout are stable for RPM optimization
-    const timer = setTimeout(initAds, 1000);
-
+    const timer = setTimeout(initAds, 1500);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       clearTimeout(timer);
@@ -69,36 +63,41 @@ const App: React.FC = () => {
       <Header onFullscreen={toggleFullscreen} />
       
       <main className="flex-grow flex flex-col items-center bg-slate-900">
-        {/* Top Ad Space */}
-        <div className="w-full max-w-7xl mx-auto px-4 py-2">
-          <AdPlaceholder label="Top Banner Ad" />
+        {/* Top Header Ad */}
+        <div className="w-full max-w-7xl mx-auto px-4 py-4">
+          <AdPlaceholder label="Leaderboard Ad" />
         </div>
 
-        {/* 1. Mobile & Chromebook Experience Tip */}
-        <div className="w-full max-w-4xl mx-auto px-4 mt-6">
-          <div className="text-center text-white bg-purple-800 p-4 rounded-lg mb-6 max-w-md mx-auto shadow-xl border border-purple-500 font-semibold animate-pulse-subtle">
-            Tip: Rotate to landscape for the best 2026 mobile experience! Optimized for Chromebook and Tablets.
+        {/* Hero Keywords Section */}
+        <div className="w-full max-w-4xl mx-auto px-4 mt-4 text-center">
+          <p className="text-blue-400 font-bold text-sm uppercase tracking-widest mb-2">New Release</p>
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-6">
+            1v1.LOL <span className="text-blue-500">Unblocked Games 2026</span>
+          </h2>
+          
+          <div className="bg-purple-900/40 border border-purple-500/50 p-4 rounded-xl mb-6 shadow-2xl backdrop-blur-sm">
+            <p className="text-white font-medium">
+              🚀 <strong>Unblocked games 2026 school chromebook no download free play</strong>: 
+              Our 1v1.LOL mirrors are specially optimized for high-speed performance on restricted networks.
+            </p>
           </div>
 
-          {/* 2. Optimized High-Impact Fullscreen Button */}
           <button 
             onClick={toggleFullscreen} 
-            className="block mx-auto bg-green-600 hover:bg-green-500 text-white font-black py-5 px-10 rounded-2xl text-2xl mb-4 shadow-[0_8px_0_rgb(22,101,52)] active:shadow-none active:translate-y-1 transform transition-all hover:scale-105"
+            className="inline-flex items-center gap-3 bg-green-600 hover:bg-green-500 text-white font-black py-4 px-10 rounded-2xl text-xl mb-8 shadow-[0_6px_0_rgb(21,128,61)] active:shadow-none active:translate-y-1 transition-all transform hover:scale-105"
           >
-            PLAY FULL SCREEN (PRESS F)
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+            PLAY FULLSCREEN (F)
           </button>
-
-          {/* 3. Immersive Fullscreen Hint */}
-          <div className="text-center text-white bg-blue-900/60 p-3 rounded-lg mb-8 max-w-lg mx-auto border border-blue-700 backdrop-blur-sm">
-            Ultimate 1v1.LOL Experience: No lag, 120FPS feel, full immersion!
-          </div>
         </div>
 
         {/* Game Area */}
         <div 
           ref={gameContainerRef}
-          className={`w-full relative bg-black transition-all duration-500 shadow-2xl ${
-            isFullscreen ? 'h-screen' : 'h-[65vh] md:h-[80vh] border-y border-slate-800'
+          className={`w-full relative bg-black transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.5)] ${
+            isFullscreen ? 'h-screen' : 'h-[60vh] md:h-[80vh] border-y border-slate-800'
           }`}
         >
           <GameFrame 
@@ -108,76 +107,56 @@ const App: React.FC = () => {
           />
         </div>
 
-        {/* 4. Strategic AdSense Placement (Below Game) for High RPM */}
-        <div className="ad-bottom mt-8 text-center w-full max-w-4xl mx-auto px-4 adsbygoogle-container" style={{ minHeight: '120px' }}>
-          <ins className="adsbygoogle"
-               style={{ display: 'block' }}
-               data-ad-client="ca-pub-9774042341049510"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
+        {/* Crucial AdSense Placement - Below Game (Max RPM) */}
+        <div className="w-full max-w-4xl mx-auto px-4 mt-8">
+          <div className="bg-slate-800/30 p-2 rounded-lg border border-slate-700/50">
+            <ins className="adsbygoogle"
+                 style={{ display: 'block' }}
+                 data-ad-client="ca-pub-9774042341049510"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
         </div>
 
-        <div className="w-full max-w-4xl mx-auto px-4 pb-16">
-          {/* 2026 Strategy & SEO Content Section */}
-          <div className="strategy mt-12 text-gray-300 p-8 bg-gray-800/80 rounded-2xl border border-slate-700 shadow-2xl backdrop-blur-md">
-            <h2 className="text-3xl font-extrabold text-white mb-6">Unblocked Games 2026 School Guide: 1v1.LOL</h2>
-            <p className="mb-6 leading-relaxed text-lg">
-              Are you searching for the best <strong>unblocked games 2026 school chromebook no download</strong>? Look no further. Our 2026 edition of 1v1.LOL is fully optimized to bypass restrictions while maintaining ultra-low latency. Whether you are in the classroom or at home, you can jump into the action instantly.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <h3 className="text-blue-400 font-bold mb-2 uppercase text-sm tracking-widest">2026 Pro Tactics</h3>
-                <p className="text-sm">Master the 'Triple-Ramp' build and the fast-edit shotgun combo. In 2026, the meta is all about speed and precision editing on school networks.</p>
-              </div>
-              <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
-                <h3 className="text-green-400 font-bold mb-2 uppercase text-sm tracking-widest">Chromebook Setup</h3>
-                <p className="text-sm">Turn off hardware acceleration for a smoother experience. This version of 1v1.LOL requires <strong>no download</strong> and runs directly in your browser.</p>
-              </div>
+        {/* 2026 Strategy Content Section */}
+        <div className="w-full max-w-4xl mx-auto px-4 py-12">
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+              <h3 className="text-xl font-bold text-white mb-4">Master 1v1.LOL 2026 Meta</h3>
+              <p className="text-slate-300 text-sm leading-relaxed mb-4">
+                The 2026 season introduces faster edit speeds and tighter building mechanics. To dominate in <strong>unblocked games 2026 school</strong> environments, ensure you practice your '90s' in the JustBuild mode. High ground is more critical than ever.
+              </p>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-center gap-2"><span className="text-blue-500">✔</span> Zero Lag Chromebook Optimization</li>
+                <li className="flex items-center gap-2"><span className="text-blue-500">✔</span> No Download Required</li>
+                <li className="flex items-center gap-2"><span className="text-blue-500">✔</span> Full Free Play Access</li>
+              </ul>
             </div>
-            <p className="mt-8 italic text-slate-400 border-l-4 border-blue-600 pl-4">
-              "The most reliable source for unblocked games 2026 – play 1v1.LOL anytime, anywhere."
-            </p>
+            
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-white">Why Choose Our 2026 Mirror?</h3>
+              <p className="text-slate-400 text-base leading-relaxed">
+                Finding a reliable <strong>unblocked games 2026 school chromebook no download free play</strong> site is difficult. We utilize premium hosting to ensure that even on crowded school Wi-Fi, your 1v1 duels remain smooth. Our platform is updated weekly with the latest game patches.
+              </p>
+            </div>
           </div>
 
-          {/* Internal Links (SEO Circulation) */}
-          <div className="other-games mt-12 bg-slate-950/40 p-8 rounded-2xl shadow-xl border border-slate-800">
-            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <span className="w-2 h-8 bg-blue-600 rounded-full"></span>
-              Trending Unblocked Games 2026
-            </h3>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {['Snake Game', 'Zero Lag Games', 'Retro Bowl', 'Drift Hunters', 'Slope Game', 'Geometry Dash', 'Moto X3M', 'Subway Surfers', 'Run 3', 'Fireboy & Watergirl', 'Paper.io', 'Subway Surfers World'].map((game) => (
-                  <li key={game}>
-                    <a href={`https://${game.toLowerCase().replace(/\s+/g, '')}2026.online`} className="block p-3 rounded-lg bg-slate-800/30 hover:bg-blue-600/20 border border-slate-700 hover:border-blue-500 transition-all text-blue-300 hover:text-white font-medium truncate">
-                      Play {game} Unblocked 2026
-                    </a>
-                  </li>
-                ))}
-            </ul>
+          {/* Internal Games Links */}
+          <div className="mt-12 bg-slate-950/50 p-8 rounded-2xl border border-slate-800">
+            <h4 className="text-lg font-bold text-white mb-6 uppercase tracking-widest text-center">Unblocked Games 2026 Network</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {['Snake', 'Retro Bowl', 'Geometry Dash', 'Slope', 'Drift Hunters', 'Moto X3M', 'Subway Surfers', 'Run 3'].map(game => (
+                <a key={game} href="#" className="p-3 bg-slate-800/50 hover:bg-blue-600/20 border border-slate-700 hover:border-blue-500 rounded-lg text-center text-sm text-blue-300 transition-all font-medium">
+                  {game} 2026
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* SEO & Engagement Section */}
-        <section className="w-full max-w-4xl mx-auto px-6 py-16 text-slate-300 border-t border-slate-800">
-          <h1 className="text-5xl font-black text-white mb-8 tracking-tighter">1v1.LOL UNBLOCKED 2026</h1>
-          <div className="space-y-6 text-lg leading-relaxed">
-            <p>
-              Experience the next generation of building-based combat. <strong>1v1.LOL Unblocked 2026</strong> brings you the most stable servers and updated game modes for the new academic year. Our platform is the #1 hub for <strong>unblocked games 2026 school</strong> environments, ensuring you never miss a beat of the action.
-            </p>
-            <p>
-              With <strong>no download</strong> required, you can play directly on your <strong>Chromebook</strong> or any mobile device. We focus on performance and accessibility, making this the premium version of 1v1 lol unblocked for students and casual gamers alike.
-            </p>
-          </div>
-        </section>
-
-        {/* Bottom Banner for Additional Revenue */}
-        <div className="w-full max-w-7xl mx-auto px-4 py-8 adsbygoogle-container">
-          <AdPlaceholder label="Footer Recommendation Ad" />
-          <ins className="adsbygoogle"
-               style={{ display: 'block' }}
-               data-ad-client="ca-pub-9774042341049510"
-               data-ad-format="autorelaxed"
-               data-ad-slot="9876543210"></ins>
+        {/* Bottom Banner */}
+        <div className="w-full max-w-7xl mx-auto px-4 py-8">
+          <AdPlaceholder label="Recommended for You" />
         </div>
       </main>
 

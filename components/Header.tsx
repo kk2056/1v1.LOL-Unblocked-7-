@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface HeaderProps {
@@ -9,14 +8,14 @@ export const Header: React.FC<HeaderProps> = ({ onFullscreen }) => {
   return (
     <header className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-black text-xl italic text-white transform -rotate-6">
+        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-black text-xl italic text-white transform -rotate-6 shadow-lg shadow-blue-500/20">
           1v1
         </div>
         <div>
           <h1 className="text-xl font-bold tracking-tight text-white hidden sm:block">
-            1v1.LOL <span className="text-blue-500">Unblocked 2025</span>
+            1v1.LOL <span className="text-blue-500">Unblocked 2026</span>
           </h1>
-          <p className="text-xs text-slate-400 hidden sm:block">School & Chromebook Optimized</p>
+          <p className="text-xs text-slate-400 hidden sm:block">2026 School & Chromebook Optimized</p>
         </div>
       </div>
 
@@ -36,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({ onFullscreen }) => {
           rel="noopener noreferrer"
           className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-md text-sm font-bold shadow-lg shadow-blue-900/20 transition-all hover:scale-105"
         >
-          Official Site
+          Official
         </a>
       </nav>
     </header>
